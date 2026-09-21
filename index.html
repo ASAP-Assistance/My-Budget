@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#0b1220">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="My Budget">
+<link rel="manifest" href="manifest.json">
+<title>My Budget</title>
+<style>
+:root{--bg:#f3f5f8;--card:#fff;--text:#111827;--muted:#6b7280;--line:#e5e7eb;--blue:#2563eb;--green:#159447;--red:#dc3545}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif}
+.app{max-width:650px;margin:auto;min-height:100vh;padding-bottom:28px}
+header{background:#0b1220;color:white;padding:calc(18px + env(safe-area-inset-top)) 18px 18px;position:sticky;top:0;z-index:5}
+header h1{font-size:24px;margin:0 0 4px}header p{margin:0;color:#b8c2d3;font-size:13px}
+main{padding:14px}.month,.quick,.goal,.item{background:var(--card);border-radius:16px;box-shadow:0 8px 25px rgba(15,23,42,.07)}
+.month{display:flex;align-items:center;gap:10px;padding:10px 12px;margin-bottom:14px}.month label{font-size:13px;color:var(--muted);font-weight:700}
+select{border:0;background:#f1f5f9;border-radius:10px;padding:9px;color:var(--text)}
+.summary{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;margin-bottom:14px}.card{background:white;border-radius:16px;padding:13px;box-shadow:0 8px 25px rgba(15,23,42,.07)}
+.label{font-size:11px;color:var(--muted);font-weight:700;text-transform:uppercase}.value{font-size:18px;font-weight:800;margin-top:5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.income .value{color:var(--green)}.expense .value{color:var(--red)}.left .value{color:var(--blue)}
+.section-title{font-size:17px;font-weight:800;margin:18px 2px 9px}.quick{padding:12px}
+.toggle{display:grid;grid-template-columns:1fr 1fr;background:#eef2f7;padding:4px;border-radius:11px;margin-bottom:10px}
+.toggle button{border:0;background:transparent;padding:9px;border-radius:8px;font-weight:800;color:#64748b}.toggle button.active{background:white;color:var(--blue);box-shadow:0 2px 8px rgba(0,0,0,.08)}
+.row{display:grid;grid-template-columns:1fr 105px 48px;gap:8px}.row input{width:100%;border:1px solid var(--line);border-radius:11px;padding:11px 10px;outline:none;background:white}
+.add{border:0;border-radius:11px;background:var(--blue);color:white;font-size:21px;font-weight:800;min-height:44px}.hint{font-size:12px;color:var(--muted);margin:9px 2px 0}
+.list{display:flex;flex-direction:column;gap:8px}.item{display:flex;align-items:center;gap:10px;padding:11px 12px}
+.dot{width:9px;height:9px;border-radius:50%;flex:0 0 9px}.dot.in{background:var(--green)}.dot.out{background:var(--red)}
+.name{flex:1;min-width:0}.name strong{display:block;font-size:14px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.name small{color:var(--muted);font-size:11px}
+.amount{font-weight:800;font-size:14px;white-space:nowrap}.amount.in{color:var(--green)}.amount.out{color:var(--red)}
+.delete{width:32px;height:32px;border:0;background:#f1f5f9;border-radius:9px;color:#64748b;font-weight:800}
+.goal{padding:13px}.goaltop{display:flex;justify-content:space-between;gap:10px;align-items:center}.goal input{width:120px;border:1px solid var(--line);border-radius:10px;padding:8px}
+.bar{height:9px;background:#e8edf3;border-radius:99px;overflow:hidden;margin-top:10px}.fill{height:100%;width:0;background:var(--blue);transition:width .25s}.goaltext{font-size:12px;color:var(--muted);margin-top:7px}
+.tools{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:14px}.tool{border:1px solid var(--line);background:white;border-radius:12px;padding:10px;font-weight:700;color:#334155}
+.empty{text-align:center;color:var(--muted);padding:20px 10px;background:white;border-radius:14px}.install{margin-top:14px;background:#eaf1ff;border:1px solid #cfe0ff;color:#1746a2;border-radius:14px;padding:11px 12px;font-size:12px;line-height:1.4}
+@media(max-width:390px){.summary{gap:6px}.card{padding:11px 9px}.value{font-size:16px}.row{grid-template-columns:1fr 92px 46px}}
+</style>
+</head>
+<body>
+<div class="app">
+<header><h1>My Budget</h1><p>Simple money tracking — one line at a time.</p></header>
+<main>
+<div class="month"><label>MONTH</label><select id="month"></select></div>
+<div class="summary">
+<div class="card income"><div class="label">Income</div><div class="value" id="totalIncome">R0.00</div></div>
+<div class="card expense"><div class="label">Expenses</div><div class="value" id="totalExpense">R0.00</div></div>
+<div class="card left"><div class="label">Left</div><div class="value" id="moneyLeft">R0.00</div></div>
+</div>
+<div class="section-title">Quick Add</div>
+<div class="quick">
+<div class="toggle"><button id="incomeBtn" class="active">+ Income</button><button id="expenseBtn">− Expense</button></div>
+<div class="row"><input id="description" placeholder="Salary, rent, food..." autocomplete="off"><input id="amount" type="number" inputmode="decimal" min="0" step=".01" placeholder="Amount"><button class="add" id="addBtn">+</button></div>
+<div class="hint">Example: <b>Salary</b> + <b>20000</b> → tap +</div>
+</div>
+<div class="section-title">This Month</div><div id="entries" class="list"></div>
+<div class="section-title">Savings Goal</div>
+<div class="goal"><div class="goaltop"><strong>Monthly target</strong><input id="goal" type="number" inputmode="decimal" min="0" step=".01" placeholder="R0"></div><div class="bar"><div id="goalFill" class="fill"></div></div><div id="goalText" class="goaltext">Set a target to track your progress.</div></div>
+<div class="tools"><button class="tool" id="exportBtn">Export Backup</button><button class="tool" id="clearBtn">Clear This Month</button></div>
+<div class="install"><b>Phone:</b> host these files on an HTTPS website, open it on your phone, then choose <b>Add to Home Screen</b> / <b>Install app</b>. Your data is saved on the device.</div>
+</main></div>
+<script>
+const KEY="my-budget-mobile-v1";let data=JSON.parse(localStorage.getItem(KEY)||'{"months":{},"goals":{}}');let currentMonth=new Date().toISOString().slice(0,7),type="income";
+const $=id=>document.getElementById(id),monthEl=$("month"),descEl=$("description"),amountEl=$("amount"),entriesEl=$("entries"),goalEl=$("goal");
+const money=n=>new Intl.NumberFormat("en-ZA",{style:"currency",currency:"ZAR"}).format(Number(n)||0);
+function save(){localStorage.setItem(KEY,JSON.stringify(data))}
+function md(){if(!data.months[currentMonth])data.months[currentMonth]=[];return data.months[currentMonth]}
+function populate(){const now=new Date();for(let i=0;i<18;i++){const d=new Date(now.getFullYear(),now.getMonth()-i,1),k=d.toISOString().slice(0,7),o=document.createElement("option");o.value=k;o.textContent=d.toLocaleDateString("en-ZA",{month:"long",year:"numeric"});if(k===currentMonth)o.selected=true;monthEl.appendChild(o)}}
+function esc(s){return String(s).replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[m]))}
+function render(){
+ const a=md(),inc=a.filter(x=>x.type==="income").reduce((s,x)=>s+x.amount,0),out=a.filter(x=>x.type==="expense").reduce((s,x)=>s+x.amount,0),left=inc-out;
+ $("totalIncome").textContent=money(inc);$("totalExpense").textContent=money(out);$("moneyLeft").textContent=money(left);
+ entriesEl.innerHTML=a.length?"":"<div class='empty'>No entries yet. Add your salary or first expense above.</div>";
+ [...a].reverse().forEach((x,ri)=>{const i=a.length-1-ri,e=document.createElement("div");e.className="item";e.innerHTML=`<span class="dot ${x.type==="income"?"in":"out"}"></span><div class="name"><strong>${esc(x.name)}</strong><small>${x.type==="income"?"Income":"Expense"}</small></div><div class="amount ${x.type==="income"?"in":"out"}">${x.type==="income"?"+":"−"}${money(x.amount)}</div><button class="delete">×</button>`;e.querySelector(".delete").onclick=()=>{a.splice(i,1);save();render()};entriesEl.appendChild(e)});
+ const g=Number(data.goals[currentMonth]||0);goalEl.value=g||"";const pct=g>0?Math.max(0,Math.min(100,left/g*100)):0;$("goalFill").style.width=pct+"%";$("goalText").textContent=g?`${money(Math.max(0,left))} of ${money(g)} target (${Math.round(pct)}%)`:"Set a target to track your progress.";
+}
+function setType(t){type=t;$("incomeBtn").classList.toggle("active",t==="income");$("expenseBtn").classList.toggle("active",t==="expense");descEl.placeholder=t==="income"?"Salary, bonus...":"Rent, food, fuel...";amountEl.focus()}
+function add(){const name=descEl.value.trim(),amount=Number(amountEl.value);if(!name){descEl.focus();return}if(!amount||amount<0){amountEl.focus();return}md().push({name,amount,type});save();descEl.value="";amountEl.value="";descEl.focus();render()}
+$("incomeBtn").onclick=()=>setType("income");$("expenseBtn").onclick=()=>setType("expense");$("addBtn").onclick=add;amountEl.onkeydown=e=>{if(e.key==="Enter")add()};descEl.onkeydown=e=>{if(e.key==="Enter")amountEl.focus()};monthEl.onchange=()=>{currentMonth=monthEl.value;render()};goalEl.oninput=()=>{data.goals[currentMonth]=Number(goalEl.value)||0;save();render()};
+$("clearBtn").onclick=()=>{if(confirm("Clear all income and expenses for this month?")){data.months[currentMonth]=[];save();render()}};
+$("exportBtn").onclick=()=>{const b=new Blob([JSON.stringify(data,null,2)],{type:"application/json"}),a=document.createElement("a");a.href=URL.createObjectURL(b);a.download="my-budget-backup.json";a.click();setTimeout(()=>URL.revokeObjectURL(a.href),1000)};
+populate();render();if("serviceWorker"in navigator)addEventListener("load",()=>navigator.serviceWorker.register("sw.js").catch(()=>{}));
+</script>
+</body></html>
