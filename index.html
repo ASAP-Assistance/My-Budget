@@ -5,80 +5,154 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#0b1220">
 <meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-title" content="My Budget">
+<meta name="apple-mobile-web-app-title" content="My Budget Control">
 <link rel="manifest" href="manifest.json">
-<title>My Budget</title>
+<title>My Budget Control</title>
 <style>
-:root{--bg:#f3f5f8;--card:#fff;--text:#111827;--muted:#6b7280;--line:#e5e7eb;--blue:#2563eb;--green:#159447;--red:#dc3545}
-*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif}
-.app{max-width:650px;margin:auto;min-height:100vh;padding-bottom:28px}
-header{background:#0b1220;color:white;padding:calc(18px + env(safe-area-inset-top)) 18px 18px;position:sticky;top:0;z-index:5}
-header h1{font-size:24px;margin:0 0 4px}header p{margin:0;color:#b8c2d3;font-size:13px}
-main{padding:14px}.month,.quick,.goal,.item{background:var(--card);border-radius:16px;box-shadow:0 8px 25px rgba(15,23,42,.07)}
-.month{display:flex;align-items:center;gap:10px;padding:10px 12px;margin-bottom:14px}.month label{font-size:13px;color:var(--muted);font-weight:700}
-select{border:0;background:#f1f5f9;border-radius:10px;padding:9px;color:var(--text)}
-.summary{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;margin-bottom:14px}.card{background:white;border-radius:16px;padding:13px;box-shadow:0 8px 25px rgba(15,23,42,.07)}
-.label{font-size:11px;color:var(--muted);font-weight:700;text-transform:uppercase}.value{font-size:18px;font-weight:800;margin-top:5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.income .value{color:var(--green)}.expense .value{color:var(--red)}.left .value{color:var(--blue)}
-.section-title{font-size:17px;font-weight:800;margin:18px 2px 9px}.quick{padding:12px}
-.toggle{display:grid;grid-template-columns:1fr 1fr;background:#eef2f7;padding:4px;border-radius:11px;margin-bottom:10px}
-.toggle button{border:0;background:transparent;padding:9px;border-radius:8px;font-weight:800;color:#64748b}.toggle button.active{background:white;color:var(--blue);box-shadow:0 2px 8px rgba(0,0,0,.08)}
-.row{display:grid;grid-template-columns:1fr 105px 48px;gap:8px}.row input{width:100%;border:1px solid var(--line);border-radius:11px;padding:11px 10px;outline:none;background:white}
-.add{border:0;border-radius:11px;background:var(--blue);color:white;font-size:21px;font-weight:800;min-height:44px}.hint{font-size:12px;color:var(--muted);margin:9px 2px 0}
-.list{display:flex;flex-direction:column;gap:8px}.item{display:flex;align-items:center;gap:10px;padding:11px 12px}
-.dot{width:9px;height:9px;border-radius:50%;flex:0 0 9px}.dot.in{background:var(--green)}.dot.out{background:var(--red)}
-.name{flex:1;min-width:0}.name strong{display:block;font-size:14px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.name small{color:var(--muted);font-size:11px}
-.amount{font-weight:800;font-size:14px;white-space:nowrap}.amount.in{color:var(--green)}.amount.out{color:var(--red)}
-.delete{width:32px;height:32px;border:0;background:#f1f5f9;border-radius:9px;color:#64748b;font-weight:800}
-.goal{padding:13px}.goaltop{display:flex;justify-content:space-between;gap:10px;align-items:center}.goal input{width:120px;border:1px solid var(--line);border-radius:10px;padding:8px}
-.bar{height:9px;background:#e8edf3;border-radius:99px;overflow:hidden;margin-top:10px}.fill{height:100%;width:0;background:var(--blue);transition:width .25s}.goaltext{font-size:12px;color:var(--muted);margin-top:7px}
-.tools{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:14px}.tool{border:1px solid var(--line);background:white;border-radius:12px;padding:10px;font-weight:700;color:#334155}
-.empty{text-align:center;color:var(--muted);padding:20px 10px;background:white;border-radius:14px}.install{margin-top:14px;background:#eaf1ff;border:1px solid #cfe0ff;color:#1746a2;border-radius:14px;padding:11px 12px;font-size:12px;line-height:1.4}
-@media(max-width:390px){.summary{gap:6px}.card{padding:11px 9px}.value{font-size:16px}.row{grid-template-columns:1fr 92px 46px}}
+:root{--bg:#eef1f5;--card:#fff;--text:#111827;--muted:#667085;--line:#dfe4ea;--blue:#2563eb;--blue2:#0b1220;--green:#16834b;--red:#d92d20;--amber:#b54708;--purple:#6941c6;--shadow:0 6px 22px rgba(16,24,40,.08)}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif}button,input,select{font:inherit}button{cursor:pointer}.app{max-width:1400px;margin:auto;min-height:100vh;padding-bottom:40px}header{background:var(--blue2);color:#fff;padding:calc(14px + env(safe-area-inset-top)) 16px 14px;position:static;z-index:auto;box-shadow:0 3px 14px rgba(0,0,0,.2)}header .top{display:flex;justify-content:space-between;align-items:center;gap:12px}header h1{font-size:22px;margin:0 0 2px}header p{margin:0;color:#b9c4d4;font-size:12px}.monthbar{display:flex;gap:8px;align-items:center;margin-top:10px;max-width:360px;margin-left:auto}.monthbar select{min-width:0}.monthbar button{width:38px;height:38px;border:1px solid #334155;border-radius:10px;background:#182236;color:#fff}.monthbar select{flex:1;background:#182236;color:#fff;border:1px solid #334155;border-radius:10px;padding:9px 10px}.section{margin:16px 22px 0}.card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:20px;box-shadow:var(--shadow)}.stickySalary{border:2px solid var(--blue);}.sectionTitle{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:10px}.sectionTitle h2{font-size:16px;margin:0}.badge{font-size:11px;border-radius:999px;padding:4px 8px;background:#eaf1ff;color:#1d4ed8;font-weight:700}.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}.field{display:flex;flex-direction:column;gap:5px}.field.full{grid-column:1/-1}.field label{font-size:11px;font-weight:700;color:var(--muted)}input,select{width:100%;border:1px solid #cfd6df;border-radius:10px;padding:10px;background:#fff;color:var(--text);outline:none}input:focus,select:focus{border-color:var(--blue);box-shadow:0 0 0 3px rgba(37,99,235,.1)}.money{font-weight:800}.btnrow{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}.btn{border:0;border-radius:10px;padding:10px 14px;font-weight:700;min-height:40px}.primary{background:var(--blue);color:#fff}.dark{background:#172033;color:#fff}.green{background:var(--green);color:#fff}.red{background:#fff0ee;color:var(--red);border:1px solid #f2b8b3}.ghost{background:#f4f6f8;color:#273142;border:1px solid #d7dde5}.small{padding:7px 9px;font-size:12px}.summary{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}.stat{background:#f7f8fa;border:1px solid var(--line);border-radius:12px;padding:10px}.stat span{display:block;color:var(--muted);font-size:10px}.stat strong{display:block;margin-top:4px;font-size:16px}.monthSummary .summary{gap:10px}.monthSummary .stat{padding:16px}.monthSummary .stat span{font-size:11px}.monthSummary .stat strong{font-size:20px}.positive{color:var(--green)}.negative{color:var(--red)}.warn{color:var(--amber)}.item{border:1px solid var(--line);border-radius:15px;padding:16px;margin-top:12px;background:#fff;box-shadow:0 2px 8px rgba(15,23,42,.04)}.itemTop{display:flex;justify-content:space-between;gap:8px}.itemName{font-weight:800}.itemMeta{font-size:11px;color:var(--muted);margin-top:3px}.pill{font-size:10px;font-weight:800;border-radius:999px;padding:4px 7px;white-space:nowrap}.paid{background:#e7f7ee;color:var(--green)}.unpaid{background:#fff0ee;color:var(--red)}.partial{background:#fff6df;color:var(--amber)}.itemGrid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin-top:12px}.mini{background:#f7f8fa;border:1px solid #edf0f3;border-radius:10px;padding:10px}.mini span{display:block;font-size:9px;color:var(--muted)}.mini strong{font-size:12px}.progress{height:7px;background:#e7ebf0;border-radius:99px;overflow:hidden;margin-top:8px}.progress i{display:block;height:100%;background:var(--blue);width:0}.listEmpty{color:var(--muted);font-size:13px;text-align:center;padding:16px 8px}.note{font-size:11px;color:var(--muted);line-height:1.45;margin-top:8px}.toolbar{display:flex;gap:7px;flex-wrap:wrap}.desktopGrid{display:block}.desktopGrid>.section{min-width:0}.desktopGrid .card{min-height:0}.dangerZone{border-color:#f0c1bd}.hidden{display:none!important}.modal{position:fixed;inset:0;background:rgba(15,23,42,.62);z-index:50;display:flex;align-items:flex-end;justify-content:center}.modalBox{background:#fff;width:min(720px,100%);max-height:92vh;overflow:auto;border-radius:20px 20px 0 0;padding:16px}.modalHead{display:flex;justify-content:space-between;align-items:center}.modalHead h3{margin:0}.close{border:0;background:#edf0f4;width:34px;height:34px;border-radius:50%}.hr{height:1px;background:var(--line);margin:13px 0}.switch{display:flex;gap:6px}.switch button{flex:1}.activeType{outline:3px solid rgba(37,99,235,.15)}footer{padding:18px 14px;color:var(--muted);font-size:10px;text-align:center}
+@media(max-width:760px){.app{max-width:100%}.section{margin-left:10px;margin-right:10px}.card{padding:15px}.monthbar{max-width:none;margin-left:0}.summary{grid-template-columns:repeat(3,1fr)}}
+@media(max-width:430px){.grid{grid-template-columns:1fr}.field.full{grid-column:auto}.summary{grid-template-columns:1fr 1fr}.summary .stat:last-child{grid-column:1/-1}.itemGrid{grid-template-columns:1fr 1fr}}
 </style>
 </head>
 <body>
 <div class="app">
-<header><h1>My Budget</h1><p>Simple money tracking — one line at a time.</p></header>
-<main>
-<div class="month"><label>MONTH</label><select id="month"></select></div>
-<div class="summary">
-<div class="card income"><div class="label">Income</div><div class="value" id="totalIncome">R0.00</div></div>
-<div class="card expense"><div class="label">Expenses</div><div class="value" id="totalExpense">R0.00</div></div>
-<div class="card left"><div class="label">Left</div><div class="value" id="moneyLeft">R0.00</div></div>
+<header>
+  <div class="top"><div><h1>My Budget Control</h1><p>Built for people who want control over every rand.</p></div><button class="btn ghost small" onclick="openSettings()">⚙️ Control</button></div>
+  <div class="monthbar"><button onclick="changeMonth(-1)">‹</button><select id="monthSelect" onchange="setMonth(this.value)"></select><button onclick="changeMonth(1)">›</button></div>
+</header>
+
+<!-- SALARY ALWAYS FIRST -->
+<section class="section">
+<div class="card stickySalary">
+  <div class="sectionTitle"><h2>💰 Salary & Income</h2><span class="badge">ALWAYS ON TOP</span></div>
+  <div class="grid">
+    <div class="field full"><label>Main salary</label><input id="salary" type="number" min="0" step="0.01" placeholder="0.00" oninput="saveAndRender()"></div>
+  </div>
+  <div class="sectionTitle" style="margin-top:12px"><h2 style="font-size:14px">Other income</h2><button class="btn primary small" onclick="openIncomeModal()">＋ Add income</button></div>
+  <div id="incomes"></div>
+  <div class="summary" style="margin-top:10px">
+    <div class="stat"><span>Expected income</span><strong id="totalIncome">R0.00</strong></div>
+    <div class="stat"><span>Received</span><strong id="receivedIncome">R0.00</strong></div>
+    <div class="stat"><span>Cash after planned</span><strong id="available">R0.00</strong></div>
+  </div>
+  <div class="note">Keep your salary simple, then add as many other income sources as you want: side jobs, gifts, overtime, sales, refunds, etc. Each one can be marked received or unpaid.</div>
 </div>
-<div class="section-title">Quick Add</div>
-<div class="quick">
-<div class="toggle"><button id="incomeBtn" class="active">+ Income</button><button id="expenseBtn">− Expense</button></div>
-<div class="row"><input id="description" placeholder="Salary, rent, food..." autocomplete="off"><input id="amount" type="number" inputmode="decimal" min="0" step=".01" placeholder="Amount"><button class="add" id="addBtn">+</button></div>
-<div class="hint">Example: <b>Salary</b> + <b>20000</b> → tap +</div>
+</section>
+
+<div class="desktopGrid">
+<section class="section"><div class="card">
+ <div class="sectionTitle"><h2>🎛️ Control Centre</h2><span class="badge">YOU CONTROL IT</span></div>
+ <div class="toolbar">
+  <button class="btn primary" onclick="openCommitmentModal()">＋ Add bill / allowance</button>
+  <button class="btn dark" onclick="openExpenseModal()">＋ Add expense</button>
+  <button class="btn ghost" onclick="openPaymentLog()">💳 Payment log</button>
+ </div>
+ <div class="note">Use a commitment for anything you owe or want to set aside for: pocket money, rent, subscriptions, debt, school costs, savings buckets, etc. Partial payments are tracked and unpaid amounts can carry forward.</div>
+</div></section>
+
+<section class="section"><div class="card">
+ <div class="sectionTitle"><h2>📌 Bills & Allowances</h2><span class="badge" id="commitCount">0</span></div>
+ <div id="commitments"></div>
+</div></section>
+
+<section class="section"><div class="card">
+ <div class="sectionTitle"><h2>🧾 Other Expenses</h2><span class="badge" id="expenseCount">0</span></div>
+ <div id="expenses"></div>
+</div></section>
+
+<section class="section"><div class="card monthSummary">
+ <div class="sectionTitle"><h2>📊 Month Summary</h2></div>
+ <div class="summary">
+  <div class="stat"><span>Expected income</span><strong id="sumIncome">R0.00</strong></div>
+  <div class="stat"><span>Received income</span><strong id="sumReceived">R0.00</strong></div>
+  <div class="stat"><span>Planned commitments</span><strong id="sumCommit">R0.00</strong></div>
+  <div class="stat"><span>Paid commitments</span><strong id="sumPaid">R0.00</strong></div>
+  <div class="stat"><span>Other expenses</span><strong id="sumExpenses">R0.00</strong></div>
+  <div class="stat"><span>Still unpaid</span><strong id="sumUnpaid">R0.00</strong></div>
+  <div class="stat"><span>Cash left now</span><strong id="sumLeft">R0.00</strong></div>
+ </div>
+</div></section>
 </div>
-<div class="section-title">This Month</div><div id="entries" class="list"></div>
-<div class="section-title">Savings Goal</div>
-<div class="goal"><div class="goaltop"><strong>Monthly target</strong><input id="goal" type="number" inputmode="decimal" min="0" step=".01" placeholder="R0"></div><div class="bar"><div id="goalFill" class="fill"></div></div><div id="goalText" class="goaltext">Set a target to track your progress.</div></div>
-<div class="tools"><button class="tool" id="exportBtn">Export Backup</button><button class="tool" id="clearBtn">Clear This Month</button></div>
-<div class="install"><b>Phone:</b> host these files on an HTTPS website, open it on your phone, then choose <b>Add to Home Screen</b> / <b>Install app</b>. Your data is saved on the device.</div>
-</main></div>
+
+<section class="section"><div class="card">
+ <div class="sectionTitle"><h2>🔐 Data & Backups</h2></div>
+ <div class="toolbar"><button class="btn green" onclick="manualSave()">💾 Save now</button><button class="btn ghost" onclick="exportData()">📤 Export backup</button><button class="btn ghost" onclick="document.getElementById('importFile').click()">📥 Import backup</button><input id="importFile" type="file" accept="application/json" class="hidden" onchange="importData(event)"></div>
+ <div id="saveMsg" class="note"></div>
+ <div class="note">Everything is stored on this phone. Export a backup if you want a second copy.</div>
+</div></section>
+<footer>My Budget Control • Local-first • No account required</footer>
+</div>
+
+<div id="modal" class="modal hidden" onclick="if(event.target===this)closeModal()"><div class="modalBox" id="modalBox"></div></div>
+
 <script>
-const KEY="my-budget-mobile-v1";let data=JSON.parse(localStorage.getItem(KEY)||'{"months":{},"goals":{}}');let currentMonth=new Date().toISOString().slice(0,7),type="income";
-const $=id=>document.getElementById(id),monthEl=$("month"),descEl=$("description"),amountEl=$("amount"),entriesEl=$("entries"),goalEl=$("goal");
-const money=n=>new Intl.NumberFormat("en-ZA",{style:"currency",currency:"ZAR"}).format(Number(n)||0);
-function save(){localStorage.setItem(KEY,JSON.stringify(data))}
-function md(){if(!data.months[currentMonth])data.months[currentMonth]=[];return data.months[currentMonth]}
-function populate(){const now=new Date();for(let i=0;i<18;i++){const d=new Date(now.getFullYear(),now.getMonth()-i,1),k=d.toISOString().slice(0,7),o=document.createElement("option");o.value=k;o.textContent=d.toLocaleDateString("en-ZA",{month:"long",year:"numeric"});if(k===currentMonth)o.selected=true;monthEl.appendChild(o)}}
-function esc(s){return String(s).replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[m]))}
-function render(){
- const a=md(),inc=a.filter(x=>x.type==="income").reduce((s,x)=>s+x.amount,0),out=a.filter(x=>x.type==="expense").reduce((s,x)=>s+x.amount,0),left=inc-out;
- $("totalIncome").textContent=money(inc);$("totalExpense").textContent=money(out);$("moneyLeft").textContent=money(left);
- entriesEl.innerHTML=a.length?"":"<div class='empty'>No entries yet. Add your salary or first expense above.</div>";
- [...a].reverse().forEach((x,ri)=>{const i=a.length-1-ri,e=document.createElement("div");e.className="item";e.innerHTML=`<span class="dot ${x.type==="income"?"in":"out"}"></span><div class="name"><strong>${esc(x.name)}</strong><small>${x.type==="income"?"Income":"Expense"}</small></div><div class="amount ${x.type==="income"?"in":"out"}">${x.type==="income"?"+":"−"}${money(x.amount)}</div><button class="delete">×</button>`;e.querySelector(".delete").onclick=()=>{a.splice(i,1);save();render()};entriesEl.appendChild(e)});
- const g=Number(data.goals[currentMonth]||0);goalEl.value=g||"";const pct=g>0?Math.max(0,Math.min(100,left/g*100)):0;$("goalFill").style.width=pct+"%";$("goalText").textContent=g?`${money(Math.max(0,left))} of ${money(g)} target (${Math.round(pct)}%)`:"Set a target to track your progress.";
+const KEY='my_budget_control_v3'; const OLD_KEY='my_budget_control_v2';
+let data=load();
+let selectedMonth=monthKey(new Date());
+
+function monthKey(d){return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')}
+function monthLabel(k){const [y,m]=k.split('-');return new Date(+y,+m-1,1).toLocaleDateString(undefined,{month:'long',year:'numeric'})}
+function money(n){return 'R'+Number(n||0).toLocaleString('en-ZA',{minimumFractionDigits:2,maximumFractionDigits:2})}
+function esc(s){return String(s??'').replace(/[&<>'"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[c]))}
+function uid(){return Date.now().toString(36)+Math.random().toString(36).slice(2,8)}
+function blank(){return {months:{},commitments:[],expenses:[],payments:[]}}
+function normalizeData(x){
+  x=x||blank(); x.months=x.months||{}; x.commitments=x.commitments||[]; x.expenses=x.expenses||[]; x.payments=x.payments||[];
+  for(const k of Object.keys(x.months)){
+    const m=x.months[k]||{}; m.salary=+m.salary||0; m.incomes=Array.isArray(m.incomes)?m.incomes:[];
+    if(m.otherIncome && !m.incomes.some(i=>i.migratedOther)) m.incomes.push({id:uid(),name:'Other income',amount:+m.otherIncome||0,paid:true,migratedOther:true});
+    delete m.otherIncome; x.months[k]=m;
+  }
+  return x;
 }
-function setType(t){type=t;$("incomeBtn").classList.toggle("active",t==="income");$("expenseBtn").classList.toggle("active",t==="expense");descEl.placeholder=t==="income"?"Salary, bonus...":"Rent, food, fuel...";amountEl.focus()}
-function add(){const name=descEl.value.trim(),amount=Number(amountEl.value);if(!name){descEl.focus();return}if(!amount||amount<0){amountEl.focus();return}md().push({name,amount,type});save();descEl.value="";amountEl.value="";descEl.focus();render()}
-$("incomeBtn").onclick=()=>setType("income");$("expenseBtn").onclick=()=>setType("expense");$("addBtn").onclick=add;amountEl.onkeydown=e=>{if(e.key==="Enter")add()};descEl.onkeydown=e=>{if(e.key==="Enter")amountEl.focus()};monthEl.onchange=()=>{currentMonth=monthEl.value;render()};goalEl.oninput=()=>{data.goals[currentMonth]=Number(goalEl.value)||0;save();render()};
-$("clearBtn").onclick=()=>{if(confirm("Clear all income and expenses for this month?")){data.months[currentMonth]=[];save();render()}};
-$("exportBtn").onclick=()=>{const b=new Blob([JSON.stringify(data,null,2)],{type:"application/json"}),a=document.createElement("a");a.href=URL.createObjectURL(b);a.download="my-budget-backup.json";a.click();setTimeout(()=>URL.revokeObjectURL(a.href),1000)};
-populate();render();if("serviceWorker"in navigator)addEventListener("load",()=>navigator.serviceWorker.register("sw.js").catch(()=>{}));
+function load(){try{const fresh=localStorage.getItem(KEY);if(fresh)return normalizeData(JSON.parse(fresh));const old=localStorage.getItem(OLD_KEY);if(old){const migrated=normalizeData(JSON.parse(old));localStorage.setItem(KEY,JSON.stringify(migrated));return migrated}return blank()}catch{return blank()}}
+function save(){localStorage.setItem(KEY,JSON.stringify(data))}
+function monthData(){if(!data.months[selectedMonth])data.months[selectedMonth]={salary:0,incomes:[]};data.months[selectedMonth].incomes=data.months[selectedMonth].incomes||[];return data.months[selectedMonth]}
+function saveAndRender(){const m=monthData();m.salary=+document.getElementById('salary').value||0;save();render()}
+function manualSave(){save();const el=document.getElementById('saveMsg');el.textContent='✓ Saved on this phone at '+new Date().toLocaleTimeString();setTimeout(()=>el.textContent='',2500)}
+function populateMonths(){const sel=document.getElementById('monthSelect');let keys=new Set([selectedMonth,...Object.keys(data.months)]);for(const c of data.commitments){Object.keys(c.periods||{}).forEach(k=>keys.add(k));}for(const e of data.expenses){keys.add(e.month)}let arr=[...keys].sort();sel.innerHTML=arr.map(k=>`<option value="${k}">${monthLabel(k)}</option>`).join('');sel.value=selectedMonth}
+function setMonth(k){selectedMonth=k;render()}
+function changeMonth(delta){const d=new Date(selectedMonth+'-01T12:00:00');d.setMonth(d.getMonth()+delta);selectedMonth=monthKey(d);render()}
+function commitmentDue(c){const p=c.periods?.[selectedMonth]||{paid:0};let carry=0;if(c.carry){let keys=Object.keys(c.periods||{}).filter(k=>k<selectedMonth).sort();for(const k of keys){const x=c.periods[k];carry+=Math.max(0,(+x.due||0)-(+x.paid||0));}}const due=(+c.monthly||0)+carry;return {carry,due,paid:+p.paid||0,remaining:Math.max(0,due-(+p.paid||0))}}
+function occurrences(c){if(c.frequency==='weekly')return 4;if(c.frequency==='biweekly')return 2;if(c.frequency==='once')return 1;return 1}
+function plannedCommitment(c){return c.frequency==='weekly'&&c.installment>0?c.installment*occurrences(c):c.frequency==='biweekly'&&c.installment>0?c.installment*occurrences(c):(+c.monthly||0)}
+function allCommitments(){return data.commitments.filter(c=>c.active!==false)}
+function incomeList(){return monthData().incomes||[]}
+function expectedIncome(){const m=monthData();return (+m.salary||0)+incomeList().reduce((a,i)=>a+(+i.amount||0),0)}
+function receivedIncome(){const m=monthData();return (+m.salary||0)+incomeList().filter(i=>i.paid!==false).reduce((a,i)=>a+(+i.amount||0),0)}
+function totalPlanned(){return allCommitments().reduce((a,c)=>a+plannedCommitment(c),0)+data.expenses.filter(e=>e.month===selectedMonth).reduce((a,e)=>a+(+e.amount||0),0)}
+function render(){populateMonths();const m=monthData();document.getElementById('salary').value=m.salary||'';const expected=expectedIncome(),received=receivedIncome();let planned=0,paid=0,unpaid=0;allCommitments().forEach(c=>{const d=commitmentDue(c);planned+=d.due;paid+=d.paid;unpaid+=d.remaining});const exps=data.expenses.filter(e=>e.month===selectedMonth);const expTotal=exps.reduce((a,e)=>a+(+e.amount||0),0);const cash=received-paid-exps.filter(e=>e.paid).reduce((a,e)=>a+(+e.amount||0),0);document.getElementById('totalIncome').textContent=money(expected);document.getElementById('receivedIncome').textContent=money(received);document.getElementById('available').textContent=money(cash);document.getElementById('available').className=cash>=0?'positive':'negative';document.getElementById('sumIncome').textContent=money(expected);document.getElementById('sumReceived').textContent=money(received);document.getElementById('sumCommit').textContent=money(planned);document.getElementById('sumPaid').textContent=money(paid);document.getElementById('sumExpenses').textContent=money(expTotal);document.getElementById('sumUnpaid').textContent=money(unpaid+exps.filter(e=>!e.paid).reduce((a,e)=>a+(+e.amount||0),0));document.getElementById('sumLeft').textContent=money(cash);document.getElementById('sumLeft').className=cash>=0?'positive':'negative';document.getElementById('commitCount').textContent=allCommitments().length;document.getElementById('expenseCount').textContent=exps.length;renderIncomes();renderCommitments();renderExpenses();save()}
+function renderIncomes(){const box=document.getElementById('incomes');const arr=incomeList();if(!arr.length){box.innerHTML='<div class="listEmpty">No extra income yet. Keep it simple — add it only when you need it.</div>';return}box.innerHTML=arr.map(i=>`<div class="item"><div class="itemTop"><div><div class="itemName">${esc(i.name)}</div><div class="itemMeta">${i.paid===false?'Unpaid / expected':'Received'}</div></div><strong>${money(i.amount)}</strong></div><div class="btnrow"><button class="btn ${i.paid===false?'green':'ghost'} small" onclick="toggleIncomePaid('${i.id}')">${i.paid===false?'✓ Mark received':'↩ Mark unpaid'}</button><button class="btn ghost small" onclick="editIncome('${i.id}')">✏️ Edit</button><button class="btn red small" onclick="deleteIncome('${i.id}')">Delete</button></div></div>`).join('')}
+function renderCommitments(){const box=document.getElementById('commitments');const arr=allCommitments();if(!arr.length){box.innerHTML='<div class="listEmpty">No bills or allowances yet. Add one above.</div>';return}box.innerHTML=arr.map(c=>{const d=commitmentDue(c);const target=Math.max(d.due,1);const pct=Math.min(100,d.paid/target*100);let status=d.paid>=d.due?'PAID':d.paid>0?'PARTIAL':'UNPAID';let cls=status.toLowerCase();const freq=c.frequency==='weekly'?`R${Number(c.installment||0).toFixed(2)} / week`:c.frequency==='biweekly'?`R${Number(c.installment||0).toFixed(2)} / 2 weeks`:c.frequency==='once'?'One-time':'Monthly';return `<div class="item"><div class="itemTop"><div><div class="itemName">${esc(c.name)}</div><div class="itemMeta">${esc(c.category||'General')} • ${freq}${c.carry?' • carries unpaid balance':''}</div></div><span class="pill ${cls}">${status}</span></div><div class="itemGrid"><div class="mini"><span>Due incl. carry</span><strong>${money(d.due)}</strong></div><div class="mini"><span>Paid</span><strong>${money(d.paid)}</strong></div><div class="mini"><span>Still owed</span><strong>${money(d.remaining)}</strong></div></div><div class="progress"><i style="width:${pct}%"></i></div>${d.carry?`<div class="note">Previous unpaid carried forward: <b>${money(d.carry)}</b></div>`:''}<div class="btnrow"><button class="btn green small" onclick="payCommit('${c.id}')">＋ Record payment</button><button class="btn ghost small" onclick="editCommit('${c.id}')">✏️ Edit</button><button class="btn red small" onclick="deleteCommit('${c.id}')">Delete</button></div></div>`}).join('')}
+function renderExpenses(){const box=document.getElementById('expenses');const arr=data.expenses.filter(e=>e.month===selectedMonth);if(!arr.length){box.innerHTML='<div class="listEmpty">No other expenses this month.</div>';return}box.innerHTML=arr.map(e=>`<div class="item"><div class="itemTop"><div><div class="itemName">${esc(e.name)}</div><div class="itemMeta">${esc(e.category||'General')} • ${e.paid?'Paid':'Unpaid'}</div></div><strong>${money(e.amount)}</strong></div><div class="btnrow"><button class="btn ${e.paid?'ghost':'green'} small" onclick="toggleExpensePaid('${e.id}')">${e.paid?'↩ Mark unpaid':'✓ Mark paid'}</button><button class="btn ghost small" onclick="editExpense('${e.id}')">✏️ Edit</button><button class="btn red small" onclick="deleteExpense('${e.id}')">Delete</button></div></div>`).join('')}
+function openModal(html){document.getElementById('modalBox').innerHTML=html;document.getElementById('modal').classList.remove('hidden')}
+function closeModal(){document.getElementById('modal').classList.add('hidden')}
+function openIncomeModal(id=null){const i=id?incomeList().find(x=>x.id===id):null;openModal(`<div class="modalHead"><h3>${i?'Edit':'Add'} income</h3><button class="close" onclick="closeModal()">×</button></div><div class="hr"></div><div class="grid"><div class="field full"><label>Income source</label><input id="iName" value="${esc(i?.name||'')}" placeholder="Side job, overtime, gift, refund..."></div><div class="field"><label>Amount</label><input id="iAmt" type="number" min="0" step="0.01" value="${i?.amount||''}" placeholder="0.00"></div><div class="field"><label>Status</label><select id="iPaid"><option value="yes">Received</option><option value="no">Unpaid / expected</option></select></div></div><div class="note">Main salary stays at the top. Use this for every other source of money you want to track.</div><div class="btnrow"><button class="btn primary" onclick="saveIncome('${id||''}')">Save income</button><button class="btn ghost" onclick="closeModal()">Cancel</button></div></div>`);document.getElementById('iPaid').value=i?.paid===false?'no':'yes'}
+function saveIncome(id){const m=monthData();const i=id?m.incomes.find(x=>x.id===id):{id:uid()};i.name=document.getElementById('iName').value.trim()||'Other income';i.amount=+document.getElementById('iAmt').value||0;i.paid=document.getElementById('iPaid').value==='yes';if(!id)m.incomes.push(i);save();closeModal();render()}
+function editIncome(id){openIncomeModal(id)}
+function toggleIncomePaid(id){const i=incomeList().find(x=>x.id===id);if(i){i.paid=i.paid===false;save();render()}}
+function deleteIncome(id){if(confirm('Delete this income source?')){const m=monthData();m.incomes=m.incomes.filter(i=>i.id!==id);save();render()}}
+function openCommitmentModal(id=null){const c=id?data.commitments.find(x=>x.id===id):null;openModal(`<div class="modalHead"><h3>${c?'Edit':'Add'} bill / allowance</h3><button class="close" onclick="closeModal()">×</button></div><div class="hr"></div><div class="grid"><div class="field full"><label>Name</label><input id="fName" value="${esc(c?.name||'')}" placeholder="e.g. Kid pocket money"></div><div class="field"><label>Category</label><input id="fCat" value="${esc(c?.category||'Allowance')}" placeholder="Allowance, rent, subscription..."></div><div class="field"><label>Frequency</label><select id="fFreq" onchange="freqChanged()"><option value="monthly">Monthly</option><option value="weekly">Weekly</option><option value="biweekly">Every 2 weeks</option><option value="once">One-time</option></select></div><div id="monthlyField" class="field"><label>Planned monthly total</label><input id="fMonthly" type="number" min="0" step="0.01" value="${c?.monthly||''}" placeholder="1200"></div><div id="installmentField" class="field hidden"><label>Payment amount each time</label><input id="fInstallment" type="number" min="0" step="0.01" value="${c?.installment||''}" placeholder="300"></div><div class="field"><label>Carry unpaid forward?</label><select id="fCarry"><option value="yes">Yes — carry it</option><option value="no">No — reset each month</option></select></div><div class="field full"><label>Control note (optional)</label><input id="fNote" value="${esc(c?.note||'')}" placeholder="Anything you want to remember"></div></div><div class="note">Example: set Frequency to Weekly and Payment amount to R300. The app plans R1,200 for four weekly payments and keeps any unpaid amount visible. You can record R300 payments one by one.</div><div class="btnrow"><button class="btn primary" onclick="saveCommit('${id||''}')">Save</button><button class="btn ghost" onclick="closeModal()">Cancel</button></div>`);document.getElementById('fFreq').value=c?.frequency||'monthly';document.getElementById('fCarry').value=c?.carry===false?'no':'yes';freqChanged()}
+function freqChanged(){const f=document.getElementById('fFreq').value;document.getElementById('monthlyField').classList.toggle('hidden',f==='weekly'||f==='biweekly');document.getElementById('installmentField').classList.toggle('hidden',!(f==='weekly'||f==='biweekly'))}
+function saveCommit(id){const f=document.getElementById('fFreq').value;let c=id?data.commitments.find(x=>x.id===id):{id:uid(),periods:{},active:true};c.name=document.getElementById('fName').value.trim()||'Unnamed';c.category=document.getElementById('fCat').value.trim()||'General';c.frequency=f;c.monthly=f==='monthly'||f==='once'?(+document.getElementById('fMonthly').value||0):(+document.getElementById('fInstallment').value||0)*occurrences(c);c.installment=+document.getElementById('fInstallment').value||0;c.carry=document.getElementById('fCarry').value==='yes';c.note=document.getElementById('fNote').value.trim();if(!id)data.commitments.push(c);save();closeModal();render()}
+function payCommit(id){const c=data.commitments.find(x=>x.id===id);if(!c)return;const d=commitmentDue(c);openModal(`<div class="modalHead"><h3>Record payment — ${esc(c.name)}</h3><button class="close" onclick="closeModal()">×</button></div><div class="hr"></div><div class="stat"><span>Still owed this month</span><strong>${money(d.remaining)}</strong></div><div class="field" style="margin-top:10px"><label>Amount paid now</label><input id="payAmt" type="number" min="0" step="0.01" value="${c.installment||d.remaining||''}"></div><div class="field" style="margin-top:10px"><label>Payment note</label><input id="payNote" placeholder="e.g. Week 1 pocket money"></div><div class="btnrow"><button class="btn green" onclick="savePayment('${id}')">Record payment</button><button class="btn ghost" onclick="closeModal()">Cancel</button></div>`)}
+function savePayment(id){const c=data.commitments.find(x=>x.id===id);const amt=+document.getElementById('payAmt').value||0;if(!amt)return;const p=c.periods[selectedMonth]||(c.periods[selectedMonth]={paid:0});p.paid=(+p.paid||0)+amt;data.payments.push({id:uid(),commitmentId:id,month:selectedMonth,amount:amt,note:document.getElementById('payNote').value.trim(),date:new Date().toISOString()});save();closeModal();render()}
+function editCommit(id){openCommitmentModal(id)}
+function deleteCommit(id){if(confirm('Delete this bill/allowance? Its payment history will also be removed.')){data.commitments=data.commitments.filter(c=>c.id!==id);data.payments=data.payments.filter(p=>p.commitmentId!==id);save();render()}}
+function openExpenseModal(id=null){const e=id?data.expenses.find(x=>x.id===id):null;openModal(`<div class="modalHead"><h3>${e?'Edit':'Add'} expense</h3><button class="close" onclick="closeModal()">×</button></div><div class="hr"></div><div class="grid"><div class="field full"><label>Description</label><input id="eName" value="${esc(e?.name||'')}" placeholder="Groceries, fuel, lunch..."></div><div class="field"><label>Amount</label><input id="eAmt" type="number" min="0" step="0.01" value="${e?.amount||''}"></div><div class="field"><label>Category</label><input id="eCat" value="${esc(e?.category||'General')}"></div><div class="field"><label>Status</label><select id="ePaid"><option value="no">Unpaid</option><option value="yes">Paid</option></select></div></div><div class="btnrow"><button class="btn primary" onclick="saveExpense('${id||''}')">Save</button><button class="btn ghost" onclick="closeModal()">Cancel</button></div>`);document.getElementById('ePaid').value=e?.paid?'yes':'no'}
+function saveExpense(id){const e=id?data.expenses.find(x=>x.id===id):{id:uid(),month:selectedMonth};e.name=document.getElementById('eName').value.trim()||'Expense';e.amount=+document.getElementById('eAmt').value||0;e.category=document.getElementById('eCat').value.trim()||'General';e.paid=document.getElementById('ePaid').value==='yes';if(!id)data.expenses.push(e);save();closeModal();render()}
+function editExpense(id){openExpenseModal(id)}
+function toggleExpensePaid(id){const e=data.expenses.find(x=>x.id===id);if(e){e.paid=!e.paid;save();render()}}
+function deleteExpense(id){if(confirm('Delete this expense?')){data.expenses=data.expenses.filter(e=>e.id!==id);save();render()}}
+function openPaymentLog(){const arr=data.payments.slice().sort((a,b)=>b.date.localeCompare(a.date));openModal(`<div class="modalHead"><h3>Payment log</h3><button class="close" onclick="closeModal()">×</button></div><div class="hr"></div>${arr.length?arr.map(p=>{const c=data.commitments.find(x=>x.id===p.commitmentId);return `<div class="item"><b>${esc(c?.name||'Deleted item')}</b><div class="itemMeta">${monthLabel(p.month)} • ${new Date(p.date).toLocaleDateString()}${p.note?' • '+esc(p.note):''}</div><strong>${money(p.amount)}</strong></div>`}).join(''):'<div class="listEmpty">No payments recorded yet.</div>'}`)}
+function openSettings(){openModal(`<div class="modalHead"><h3>Control Centre settings</h3><button class="close" onclick="closeModal()">×</button></div><div class="hr"></div><div class="note">This version is deliberately manual. Nothing is hidden: you can edit, delete, mark paid, record partial payments, carry unpaid balances, move between months, and export the entire database.</div><div class="btnrow"><button class="btn ghost" onclick="clearMonth()">Clear selected month</button><button class="btn red" onclick="wipeAll()">Delete ALL data</button></div>`)}
+function clearMonth(){if(confirm('Clear salary, other income and expenses for '+monthLabel(selectedMonth)+'? Commitments and their payment history are kept.')){delete data.months[selectedMonth];data.expenses=data.expenses.filter(e=>e.month!==selectedMonth);for(const c of data.commitments)delete c.periods?.[selectedMonth];data.payments=data.payments.filter(p=>p.month!==selectedMonth);save();closeModal();render()}}
+function wipeAll(){if(confirm('This permanently deletes all budget data on this phone. Continue?')){data=blank();save();closeModal();render()}}
+function exportData(){const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'});const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='my-budget-control-backup-'+selectedMonth+'.json';a.click();URL.revokeObjectURL(a.href)}
+function importData(ev){const file=ev.target.files[0];if(!file)return;const r=new FileReader();r.onload=()=>{try{const x=JSON.parse(r.result);if(!x.months||!x.commitments||!x.expenses)throw Error();if(confirm('Replace the current budget on this phone with this backup?')){data=x;save();render();alert('Backup imported.')}}catch{alert('That file is not a valid Budget Control backup.')}ev.target.value=''};r.readAsText(file)}
+render();
+if('serviceWorker' in navigator)navigator.serviceWorker.register('sw.js').catch(()=>{});
 </script>
-</body></html>
+</body>
+</html>

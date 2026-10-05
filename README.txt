@@ -1,25 +1,26 @@
-MY BUDGET — MOBILE APP TEST
+MY BUDGET CONTROL — SIMPLE + FULL CONTROL
 
-This is a mobile-first Progressive Web App (PWA).
+This version keeps the simple feel while letting you track as many income sources and expenses as you want.
 
-Features:
-- One-line income and expense entries
-- Automatic Income / Expenses / Left calculation
-- Delete entries
-- Monthly view
-- Savings goal
-- Local device storage
-- JSON backup
-- Home-screen install support
+Main features:
+- Main salary is always at the top.
+- Add unlimited other income sources (side jobs, overtime, gifts, refunds, etc.).
+- Mark extra income as received or unpaid/expected.
+- Add unlimited ordinary expenses with paid/unpaid status.
+- Add bills/allowances that can be paid in parts.
+- Weekly/biweekly/monthly/one-time commitments.
+- Carry unpaid balances into later months.
+- Payment history.
+- Month-by-month data.
+- Automatic local saving plus manual save.
+- Export/import backup.
+- Control Centre for clearing a month or deleting all data.
+
+PHONE INSTALL:
+1. Upload index.html, manifest.json, sw.js, icon-192.png and icon-512.png to the root of a GitHub repository.
+2. Enable GitHub Pages from Settings > Pages > Deploy from a branch > main > /(root).
+3. Open the published Pages URL in Chrome on Android.
+4. Use Chrome's menu to Install app / Add to Home screen.
 
 IMPORTANT:
-A ZIP file cannot itself install as a phone app. The files must be served from HTTPS for normal PWA installation.
-
-TEST:
-1. Extract this ZIP.
-2. Upload the files to any HTTPS static web host.
-3. Open the site on your phone.
-4. Android/Chrome: browser menu -> Add to Home screen / Install app.
-5. iPhone/Safari: Share -> Add to Home Screen.
-
-Your budget data is stored locally on the device/browser. Use Export Backup if you want a copy.
+The app stores data locally on the device. Export a backup regularly if the data matters.
